@@ -1,0 +1,11 @@
+{
+    "description": "Application for Company Purposes",
+    "manifest_version": 3,
+    "name": "com.halley.halleyhostapp",
+    "version": "1.0",
+    "icons": {
+        "48": "icons/hplugin.svg"
+    },
+    "host_permissions": ["http://www.halley.it/*"],
+    "permissions": ["tabs", "activeTab", "scripting"]
+}
