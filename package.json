@@ -2,7 +2,7 @@
     "name": "halleynotification",
     "version": "1.0.0",
     "description": "software to get notification about new mails",
-    "main": "index.js",
+    "main": "main.js",
     "scripts": {
         "test": "test",
         "start": "electron .",

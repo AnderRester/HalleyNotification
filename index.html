@@ -4,33 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HMailNot</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap" rel="stylesheet">
+    <title>HNotifications</title>
 </head>
 
 <body>
-    <div class="sign_cont">
+    <iframe class="hmail" src="https://www.halley.it//include/ihbxw.php?ente=H&amp;x=2d5a7596d0d3d5964ca8817dd36a98d8"
+        frameborder="0" style="display: none;"></iframe>
+    <div class="loginPage" frameborder="0">
+        <img src="" alt="" class="appLogo">
+        <div class="sign_cont">
 
-        <span class="title">Sing into your accout</span>
+            <span class="title">Sign in</span>
 
-        <div class="login_cont">
-            <input type="text" name="Login" class="loginInput" placeholder="Login">
-        </div>
-        <div class="pass_cont">
-            <input type="password" name="Password" class="passwordInput" placeholder="Password">
-            <div class="showPassBtn">
-                S
+            <div class="login_cont">
+                <input type="text" name="Login" class="loginInput" placeholder="Login">
+            </div>
+            <div class="pass_cont">
+                <input type="password" name="Password" class="passwordInput" placeholder="Password">
+                <div class="showPassBtn">
+                    <img src="assets/eye.svg" alt="show password">
+                </div>
+            </div>
+
+            <div class="signInBtn">
+                <span>Sign In</span>
+            </div>
+
+            <div class="auto_login_container_wrapper">
+                <span>Auto</span>
+                <label class="auto_login_container">
+                    <input class="autoRun" type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
             </div>
         </div>
-
-        <div class="signInBtn">
-            <span>Sign In</span>
-        </div>
     </div>
-    <script type="module" src="actions.js"></script>
+    <script type="module" src="renderer.js"></script>
 </body>
 
 </html>
