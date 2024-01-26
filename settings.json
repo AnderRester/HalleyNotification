@@ -1,5 +1,6 @@
 {
-    "sound": "",
+    "sound": "assets/sounds/anime-wow-sound-effect.wav",
     "volume": 20,
-    "interval": 600000
+    "interval": 600000,
+    "silent": true
 }

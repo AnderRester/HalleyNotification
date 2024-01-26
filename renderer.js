@@ -1,8 +1,5 @@
-import "./settings.json";
-import data_default from "./settings_default.json";
-
-console.log(data);
-console.log(data_default);
+import settings from "./settings.json" assert { type: "json" };
+import settings_default from "./settings_default.json" assert { type: "json" };
 
 const signInBtn = document.querySelector(".signInBtn");
 const showPassBtn = document.querySelector(".showPassBtn");
@@ -18,10 +15,6 @@ showPassBtn.addEventListener("mouseup", () => {
 
 signInBtn.addEventListener("click", () => {
     transferUserData();
-    // fs.writeFile(".env1", getUserData, (err) => {
-    //     if (err) return console.error(err);
-    // });
-    // openMail(urlToOpen);
 });
 
 const getUserData = () => {

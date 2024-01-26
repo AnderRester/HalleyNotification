@@ -2,8 +2,12 @@ const { app, shell, BrowserWindow, Notification, nativeImage, ipcMain, Menu } = 
 const fs = require("node:fs");
 const path = require("path");
 require("dotenv").config();
+let settings = require(path.join(__dirname, "settings.json"));
+let settings_default = require(path.join(__dirname, "settings_default.json"));
 
 // App Window Settings
+
+const sound = require("sound-play");
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -39,6 +43,7 @@ const createWindow = () => {
         },
     ]);
     Menu.setApplicationMenu(updatedMenu);
+    var scanMailBox;
 
     // win.setMenu(null);
     win.webContents.openDevTools();
@@ -55,25 +60,16 @@ const createWindow = () => {
     // Menu Items Functions
 
     const profilePage = () => {
+        clearInterval(scanMailBox);
         win.loadFile("index.html");
         console.log("Message");
     };
 
     const settingsPage = () => {
+        clearInterval(scanMailBox);
         win.loadFile("settings.html");
         console.log("Settings");
     };
-
-    // Top App Menu Handler
-    ipcMain.on(`display-app-menu`, function (e, args) {
-        if (isWindows && mainWindow) {
-            menu.popup({
-                window: mainWindow,
-                x: args.x,
-                y: args.y,
-            });
-        }
-    });
 
     // Inter-Process Communication
     ipcMain.on("set-user-data", (e, data) => {
@@ -86,8 +82,8 @@ const createWindow = () => {
 
         halleyMailStart(win);
     });
-    console.log(process.env.autoRun);
-    if (process.env.autoRun == true) {
+    console.log(process.env.autoRun == "true");
+    if (process.env.autoRun == "true") {
         halleyMailStart(win);
     } else {
         win.loadFile("index.html");
@@ -102,49 +98,47 @@ const halleyMailStart = (window) => {
     window.loadURL(process.env.halleyMail);
 
     let counter = 0;
-
     let NOTIFICATION_TITLE = "You've got message";
     let NOTIFICATION_BODY = new Date().toLocaleTimeString();
-    let NOTIFICATION_SOUND = window.webContents.on("did-finish-load", () => {
+    let NOTIFICATION_SOUND = path.join(__dirname, settings.sound);
+    let NOTIFICATION_SILENT = settings.silent;
+
+    const playSound = () => {
+        try {
+            sound.play(NOTIFICATION_SOUND).then(() => console.log("done"));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    window.webContents.on("did-finish-load", () => {
         let code = ``;
         if (counter == 2) {
             code = `
-            const enterUserData = () => {
-                let credentialsData = document.querySelectorAll("input");
+                credentialsData = document.querySelectorAll("input");
                 credentialsData[5].value = "${process.env.userLogin}";
                 credentialsData[6].value = "${process.env.userPassword}";
                 document.querySelectorAll("button")[1].click();
-            };
-            enterUserData();
             `;
             window.webContents.executeJavaScript(code);
             counter++;
         } else {
             counter++;
         }
-
-        let subRefresh;
-        const scanMailBox = setInterval(() => {
-            if (counter >= 5) {
+        if (counter >= 5) {
+            scanMailBox = setInterval(() => {
                 console.log(counter);
                 code = `
-                const getUnreadedMessages = () => {
-                        let messages = document.querySelectorAll(".HR_bold .hListHDataContainer");
-                        if (messages != undefined) {
-                            ${new Notification({
-                                title: NOTIFICATION_TITLE,
-                                body: NOTIFICATION_BODY,
-                            }).show()}
-                        }
-                    
-                };
-                const stopScan = () => {
-                    clearInterval(scanMailBox);
-                };
-                
-                getUnreadedMessages();  `;
-            }
-        }, 600000);
+                    let messages = document.querySelectorAll(".HR_bold .hListHDataContainer");
+                    if (messages != undefined) {
+                        ${new Notification({
+                            title: NOTIFICATION_TITLE,
+                            body: NOTIFICATION_BODY,
+                            silent: NOTIFICATION_SILENT,
+                        }).show()};
+                    }`;
+            }, 9000);
+            // 600000
+        }
         counter++;
 
         window.webContents.executeJavaScript(code);

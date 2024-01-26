@@ -175,9 +175,26 @@ body {
 }
 
 .uploadNewSound {
-    /* mask: url(assets/uploadSound.svg) no-repeat center; */
     cursor: pointer;
     height: 30px;
     width: 30px;
-    /* margin: 0.5rem 0 0.5rem 0; */
+}
+
+.changeSoundContainer,
+.volumeSlider,
+.intervalSlider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 0 0.8rem 0;
+}
+
+.changeSoundContainer span,
+.volumeSlider span,
+.intervalSlider span {
+    padding-right: 0.5rem;
+}
+
+.intervalSlider {
+    padding-bottom: 2rem;
 }
